@@ -1,15 +1,28 @@
 <template>
   <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <list v-if="noti" v-bind:notificationList="this.noti"/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import list from './components/list';
+import axios from 'axios';
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    list
+  },
+  data(){
+    return {
+      noti: {}
+    }
+  },
+  mounted(){
+    axios.get('https://api.npoint.io/6cb0a271db3f6d5c033c')
+          .then((response) => {
+            console.log(response.data.notifications);
+            this.noti = response.data.notifications;
+          })
   }
 }
 </script>
